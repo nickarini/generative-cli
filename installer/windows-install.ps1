@@ -98,6 +98,9 @@ if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
     Write-Host "pipx is already installed."
 }
 
+# Install the Generative cli
+pipx install git+https://github.com/nickarini/generative-cli.git
+
 # Restart Powershell because it can not pick up changes sometimes
 Invoke-Command { & "powershell.exe" } -NoNewScope
 
