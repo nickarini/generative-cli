@@ -95,8 +95,13 @@ if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
     Write-Host "pipx is already installed."
 }
 
-# Install the Generative cli
-pipx install git+https://github.com/nickarini/generative-cli.git
+# Install the Generative cli if not already installed
+if (!(Get-Command generative -ErrorAction SilentlyContinue)) {
+    Write-Host "generative not found. Installing generative via pipx..."
+    pipx install git+https://github.com/nickarini/generative-cli.git
+} else {
+    Write-Host "generative is already installed."
+}
 
 # Make sure everything gets added to the path
 pipx ensurepath
@@ -105,6 +110,7 @@ pipx ensurepath
 $env:PATH = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 # Test everything installed correctly
+Write-Host "Checking installations..."
 git --version
 python --version
 poetry --version
