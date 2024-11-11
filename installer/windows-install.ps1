@@ -15,8 +15,22 @@ if (!(Get-Command git -ErrorAction SilentlyContinue)) {
     Write-Host "Git is already installed."
 }
 
+# Function to check if Python is installed
+function Is-PythonInstalled {
+    try {
+        # Check if python --version runs without error
+        $pythonVersion = & python --version 2>&1
+        if ($pythonVersion -match "Python (\d+\.\d+\.\d+)") {
+            return $true
+        }
+    } catch {
+        return $false
+    }
+    return $false
+}
+
 # Check if Python is installed
-if (!(Get-Command python -ErrorAction SilentlyContinue)) {
+if (-not (Is-PythonInstalled)) {
     Write-Host "Python not found. Installing Python via Scoop..."
     scoop install python
 } else {
