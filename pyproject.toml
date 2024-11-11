@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "generative-cli"
+name = "cli"
 version = "0.1.0"
 description = ""
 authors = ["Nick Arini <nick@generative.vision>"]
@@ -13,6 +13,9 @@ python = "^3.13"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+packages = [
+    { include = "cli" }
+]
 
 [tool.poetry.scripts]
-my-command = "my_package.cli:main"
+generative = "cli.cli:cli"
