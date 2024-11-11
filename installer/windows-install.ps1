@@ -104,8 +104,15 @@ pipx ensurepath
 # Refresh the path
 $env:PATH = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
+# Test everything installed correctly
+git --version
+python --version
+poetry --version
+pipx --version
+generative
+
 # Restart Powershell because it can not pick up changes sometimes
-Invoke-Command { & "powershell.exe" } -NoNewScope
+#Invoke-Command { & "powershell.exe" } -NoNewScope
 
 
 
