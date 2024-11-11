@@ -80,3 +80,18 @@ if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
     Write-Host "pipx is already installed."
 }
 
+# Restart Powershell because it can not pick up changes sometimes
+function Restart-PowerShell{
+    Start-Process PowerShell # Launch PowerShell host in new window
+    exit # Exit existing PowerShell host window
+}
+# Add any alias if you want, for ex. rps (rp already occupied by "Remove-ItemProperty”)
+Restart-PowerShell
+
+# Check everything has installed correctly
+git --version
+python --version
+poetry --version
+scoop help
+
+
