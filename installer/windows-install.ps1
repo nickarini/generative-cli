@@ -84,23 +84,7 @@ if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
 }
 
 # Restart Powershell because it can not pick up changes sometimes
-function Reload-Console {
-  clear
-  Write-Host "Reload Console"
+Invoke-Command { & "powershell.exe" } -NoNewScope
 
-  Get-Process -Id $PID |
-    Select-Object -ExpandProperty Path |
-      ForEach-Object {
-        Invoke-Command { & "$_" } -NoNewScope
-      }
-}
-
-New-Alias reload Reload-Console
-
-# Check everything has installed correctly
-git --version
-python --version
-poetry --version
-scoop help
 
 
