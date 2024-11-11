@@ -118,7 +118,7 @@ pipx --version
 generative --help
 
 # Restart Powershell because it can not pick up changes sometimes
-#Invoke-Command { & "powershell.exe" } -NoNewScope
+Invoke-Command { & "powershell.exe" } -NoNewScope
 
 
 
