@@ -1,6 +1,6 @@
 # Intro message
 Write-Host "Welcome to the Generative Engineering installer."
-"""
+"
                                        _    _
                                       | |  (_)
   __ _   ___  _ __    ___  _ __  __ _ | |_  _ __   __ ___
@@ -11,7 +11,7 @@ Write-Host "Welcome to the Generative Engineering installer."
  |___/
 
 
-"""
+"
 
 # Install Scoop if not already installed
 if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
