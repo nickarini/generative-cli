@@ -1,3 +1,6 @@
+# Intro message
+Write-Host "Welcome to the Generative Engineering installer."
+
 # Install Scoop if not already installed
 if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "Scoop not found. Installing Scoop..."
@@ -81,12 +84,18 @@ if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
 }
 
 # Restart Powershell because it can not pick up changes sometimes
-function Restart-PowerShell{
-    Start-Process PowerShell # Launch PowerShell host in new window
-    exit # Exit existing PowerShell host window
+function Reload-Console {
+  clear
+  Write-Host "Reload Console"
+
+  Get-Process -Id $PID |
+    Select-Object -ExpandProperty Path |
+      ForEach-Object {
+        Invoke-Command { & "$_" } -NoNewScope
+      }
 }
-# Add any alias if you want, for ex. rps (rp already occupied by "Remove-ItemProperty”)
-Restart-PowerShell
+
+New-Alias reload Reload-Console
 
 # Check everything has installed correctly
 git --version
