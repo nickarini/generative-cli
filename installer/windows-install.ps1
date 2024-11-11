@@ -91,6 +91,9 @@ if (!(Get-Command poetry -ErrorAction SilentlyContinue)) {
 if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
     Write-Host "pipx not found. Installing pipx via Scoop..."
     scoop install pipx
+
+    # Make sure everything gets added to the path
+    pipx ensurepath
 } else {
     Write-Host "pipx is already installed."
 }
