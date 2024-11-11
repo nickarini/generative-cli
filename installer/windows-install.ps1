@@ -101,6 +101,17 @@ pipx install git+https://github.com/nickarini/generative-cli.git
 # Make sure everything gets added to the path
 pipx ensurepath
 
+# Refresh all environment variables
+# Refresh all user-level environment variables
+[System.Environment]::GetEnvironmentVariables("User").GetEnumerator() | ForEach-Object {
+    $env:$_.Name = $_.Value
+}
+
+# Refresh all system-level environment variables
+[System.Environment]::GetEnvironmentVariables("Machine").GetEnumerator() | ForEach-Object {
+    $env:$_.Name = $_.Value
+}
+
 # Restart Powershell because it can not pick up changes sometimes
 Invoke-Command { & "powershell.exe" } -NoNewScope
 
