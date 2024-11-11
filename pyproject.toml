@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "generative-cli"
+version = "0.1.0"
+description = ""
+authors = ["Nick Arini <nick@generative.vision>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
