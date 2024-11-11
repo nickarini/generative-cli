@@ -115,7 +115,7 @@ git --version
 python --version
 poetry --version
 pipx --version
-generative
+generative --help
 
 # Restart Powershell because it can not pick up changes sometimes
 #Invoke-Command { & "powershell.exe" } -NoNewScope
