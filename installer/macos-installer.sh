@@ -7,15 +7,28 @@ command_exists() {
 
 echo "Starting Homebrew installation script..."
 
-# **Step 1: Install Xcode Command Line Tools if not already installed**
+# **Step 1: Install Xcode Command Line Tools without dialog prompt**
 if ! xcode-select -p &>/dev/null; then
-    echo "Xcode Command Line Tools not found. Installing..."
-    xcode-select --install
-    # Wait until the tools are installed
-    until xcode-select -p &>/dev/null; do
-        sleep 5
-    done
-    echo "Xcode Command Line Tools installed."
+    echo "Xcode Command Line Tools not found. Installing without prompt..."
+
+    # Create a temporary file to enable installation
+    touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+
+    # Find the Command Line Tools update
+    PROD=$(softwareupdate -l | grep -B 1 "Command Line Tools for Xcode" | \
+           awk -F'Label: ' '/^ *Label: /{print $2}' | head -n1)
+
+    # Install the Command Line Tools
+    if [ -n "$PROD" ]; then
+        sudo softwareupdate -i "$PROD" --verbose
+        # Remove the temporary file
+        rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+        echo "Xcode Command Line Tools installed."
+    else
+        echo "Error: Command Line Tools package not found."
+        rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+        exit 1
+    fi
 else
     echo "Xcode Command Line Tools are already installed."
 fi
@@ -73,4 +86,5 @@ fi
 
 echo "Homebrew installation and PATH setup completed."
 echo "Please restart your terminal or run 'source $PROFILE_FILE' to apply the changes."
+
 source $PROFILE_FILE
