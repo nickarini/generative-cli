@@ -7,35 +7,18 @@ command_exists() {
 
 echo "Starting Homebrew installation script..."
 
-# **Step 1: Install Xcode Command Line Tools without dialog prompt**
+# **Step 1: Accept Xcode license agreement to prevent prompts**
 if ! xcode-select -p &>/dev/null; then
-    echo "Xcode Command Line Tools not found. Installing without prompt..."
-
-    # Create a temporary file to enable installation
-    touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
-
-    # Find the Command Line Tools update
-    PROD=$(softwareupdate -l | grep -B 1 "Command Line Tools for Xcode" | \
-           awk -F'Label: ' '/^ *Label: /{print $2}' | head -n1)
-
-    # Install the Command Line Tools
-    if [ -n "$PROD" ]; then
-        sudo softwareupdate -i "$PROD" --verbose
-        # Remove the temporary file
-        rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
-        echo "Xcode Command Line Tools installed."
-    else
-        echo "Error: Command Line Tools package not found."
-        rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
-        exit 1
-    fi
+    echo "Xcode Command Line Tools not found."
+    echo "Accepting Xcode license agreement..."
+    sudo xcodebuild -license accept
 else
     echo "Xcode Command Line Tools are already installed."
 fi
 
 # **Step 2: Install Homebrew**
 echo "Installing Homebrew..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # **Step 3: Detect the current user**
 CURRENT_USER=$(whoami)
@@ -77,6 +60,7 @@ eval "$($BREW_PREFIX/bin/brew shellenv)"
 # **Step 8: Add Homebrew to the user's PATH in the shell profile**
 if ! grep -qs 'eval.*brew shellenv' "$PROFILE_FILE"; then
     echo "Adding Homebrew to PATH in $PROFILE_FILE..."
+    echo '' >> "$PROFILE_FILE"
     echo '# Set PATH, MANPATH, etc., for Homebrew.' >> "$PROFILE_FILE"
     echo 'eval "$('"$BREW_PREFIX"'/bin/brew shellenv)"' >> "$PROFILE_FILE"
     echo "Homebrew path added to $PROFILE_FILE."

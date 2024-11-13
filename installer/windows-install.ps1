@@ -88,23 +88,23 @@ if (!(Get-Command poetry -ErrorAction SilentlyContinue)) {
 }
 
 # Check if pipx is installed
-if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
-    Write-Host "pipx not found. Installing pipx via Scoop..."
-    scoop install pipx
-} else {
-    Write-Host "pipx is already installed."
-}
+#if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
+#    Write-Host "pipx not found. Installing pipx via Scoop..."
+#    scoop install pipx
+#} else {
+#    Write-Host "pipx is already installed."
+#}
 
 # Install the Generative cli if not already installed
-if (!(Get-Command generative -ErrorAction SilentlyContinue)) {
-    Write-Host "generative not found. Installing generative via pipx..."
-    pipx install git+https://github.com/nickarini/generative-cli.git
-} else {
-    Write-Host "generative is already installed."
-}
+#if (!(Get-Command generative -ErrorAction SilentlyContinue)) {
+#    Write-Host "generative not found. Installing generative via pipx..."
+#    pipx install git+https://github.com/nickarini/generative-cli.git
+#} else {
+#    Write-Host "generative is already installed."
+#}
 
 # Make sure everything gets added to the path
-pipx ensurepath
+#pipx ensurepath
 
 # Refresh the path
 $env:PATH = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
@@ -114,8 +114,8 @@ Write-Host "Checking installations..."
 git --version
 python --version
 poetry --version
-pipx --version
-generative --help
+#pipx --version
+#generative --help
 
 # Restart Powershell because it can not pick up changes sometimes
 Invoke-Command { & "powershell.exe" } -NoNewScope
