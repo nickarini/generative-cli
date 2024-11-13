@@ -18,7 +18,7 @@ sudo apt install -y python3-venv build-essential python3-dev
 
 # Install pipx
 echo "Installing pipx..."
-sudo apt install pipx
+sudo apt install -y pipx
 pipx ensurepath
 
 # Add pipx to PATH immediately for this session
