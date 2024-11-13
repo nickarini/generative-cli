@@ -20,19 +20,43 @@ fi
 echo "Installing Homebrew..."
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# **Step 3: Detect the current user**
+# **Step 3: Determine Homebrew's installation path manually**
+if [[ -d "/opt/homebrew/bin" ]]; then
+    # Apple Silicon Macs (M1/M2)
+    BREW_PREFIX="/opt/homebrew"
+elif [[ -d "/usr/local/bin" ]]; then
+    # Intel Macs
+    BREW_PREFIX="/usr/local"
+else
+    echo "Homebrew installation failed or could not determine the installation path."
+    exit 1
+fi
+echo "Homebrew prefix: $BREW_PREFIX"
+
+# **Step 4: Add Homebrew to PATH for current script execution**
+export PATH="$BREW_PREFIX/bin:$PATH"
+
+# **Verify that 'brew' command is now available**
+if command_exists brew; then
+    echo "'brew' command is now available."
+else
+    echo "Failed to locate 'brew' command even after adjusting PATH."
+    exit 1
+fi
+
+# **Step 5: Detect the current user**
 CURRENT_USER=$(whoami)
 echo "Current user: $CURRENT_USER"
 
-# **Step 4: Detect the user's shell**
+# **Step 6: Detect the user's shell**
 CURRENT_SHELL=$(basename "$SHELL")
 echo "Current shell: $CURRENT_SHELL"
 
-# **Step 5: Determine the appropriate shell profile file**
+# **Step 7: Determine the appropriate shell profile file**
 if [ "$CURRENT_SHELL" == "zsh" ]; then
     PROFILE_FILE="$HOME/.zshrc"
 elif [ "$CURRENT_SHELL" == "bash" ]; then
-    # macOS Catalina and later uses Zsh by default, but check for Bash profiles
+    # macOS Catalina and later use Zsh by default, but check for Bash profiles
     if [ -f "$HOME/.bash_profile" ]; then
         PROFILE_FILE="$HOME/.bash_profile"
     else
@@ -45,19 +69,10 @@ else
 fi
 echo "Using profile file: $PROFILE_FILE"
 
-# **Step 6: Determine Homebrew's installation path**
-if command_exists brew; then
-    BREW_PREFIX=$(brew --prefix)
-else
-    echo "Homebrew installation failed or 'brew' command not found."
-    exit 1
-fi
-echo "Homebrew prefix: $BREW_PREFIX"
-
-# **Step 7: Initialize Homebrew environment variables for the current session**
+# **Step 8: Initialize Homebrew environment variables for the current session**
 eval "$($BREW_PREFIX/bin/brew shellenv)"
 
-# **Step 8: Add Homebrew to the user's PATH in the shell profile**
+# **Step 9: Add Homebrew to the user's PATH in the shell profile**
 if ! grep -qs 'eval.*brew shellenv' "$PROFILE_FILE"; then
     echo "Adding Homebrew to PATH in $PROFILE_FILE..."
     echo '' >> "$PROFILE_FILE"
