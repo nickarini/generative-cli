@@ -4,6 +4,8 @@
 echo "Updating package lists..."
 sudo apt update
 
+sudo dpkg --configure -a
+
 # Install Git
 echo "Installing Git..."
 sudo apt install -y git
