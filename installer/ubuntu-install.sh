@@ -45,7 +45,7 @@ git --version
 python3 --version
 pip3 --version
 poetry --version
-pipx --version
+echo "Pipx version:"; pipx --version
 
 echo "Installation complete! The following tools are now installed:"
 echo "- Git"
