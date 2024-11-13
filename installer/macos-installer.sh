@@ -83,7 +83,14 @@ else
     echo "Homebrew path already present in $PROFILE_FILE."
 fi
 
-echo "Homebrew installation and PATH setup completed."
+$BREW_PREFIX/bin/brew install python
+
+$BREW_PREFIX/bin/brew install poetry
+
+python --version
+poetry --version
+
+echo "Homebrew, Python and Poetry installation and PATH setup completed."
 echo "Please restart your terminal or run 'source $PROFILE_FILE' to apply the changes."
 
 source $PROFILE_FILE
