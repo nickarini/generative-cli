@@ -91,6 +91,16 @@ python3 --version
 poetry --version
 
 echo "Homebrew, Python and Poetry installation and PATH setup completed."
-echo "Please restart your terminal or run 'source $PROFILE_FILE' to apply the changes."
+
 
 source $PROFILE_FILE
+
+# Try restarting the shell to force the changes to take effect
+if [ "$CURRENT_SHELL" == "zsh" ]; then
+    exec zsh -l
+elif [ "$CURRENT_SHELL" == "bash" ]; then
+    exec bash -l
+else
+    echo "Please restart your terminal or run 'source $PROFILE_FILE' to apply the changes."
+fi
+
