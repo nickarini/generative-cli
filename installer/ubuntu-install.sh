@@ -1,5 +1,19 @@
 #!/bin/bash
 
+echo "Welcome to the Generative Engineering installer."
+echo "
+                                       _    _
+                                      | |  (_)
+  __ _   ___  _ __    ___  _ __  __ _ | |_  _ __   __ ___
+ / _' | / _ \| '_ \  / _ \| '__|/ _' || __|| |\ \ / // _ \
+| (_| ||  __/| | | ||  __/| |  | (_| || |_ | | \ V /|  __/
+ \__, | \___||_| |_| \___||_|   \__,_| \__||_|  \_/  \___|
+  __/ |
+ |___/
+
+
+"
+
 # Update package lists
 echo "Updating package lists..."
 sudo apt update
