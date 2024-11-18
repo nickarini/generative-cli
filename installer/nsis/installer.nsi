@@ -17,13 +17,28 @@
 ; General Installer Configurations
 Name "Generative Engineering"
 Icon "generative.ico"
+!define PRODUCT_FAVICON "generative.ico"
 InstallDir "$TEMP"
 RequestExecutionLevel user
 
+; Favicon Configuration
+Function .onInit
+    ; Set favicon for the installer executable
+    File "/oname=$TEMP\${PRODUCT_FAVICON}" "${PRODUCT_FAVICON}"
+    System::Call 'User32::LoadImage(i 0, t "$TEMP\${PRODUCT_FAVICON}", i 1, i 16, i 16, i 0x0040) i .s'
+    Pop $0
+    ${If} $0 != 0
+        System::Call 'User32::SendMessageA(i $HWNDPARENT, i 0x0080, i 0, i r0) i .s'
+        Pop $0
+    ${EndIf}
+FunctionEnd
 
 ; UI Configuration
 !define MUI_ICON "generative.ico"
 !define MUI_ABORTWARNING
+!define MUI_WELCOMEPAGE_TITLE "Generative Engineering Setup Installation"
+!define MUI_WELCOMEPAGE_TEXT "This installer will guide you through the installation of Generative Engineering prerequisites.$\r$\n$\r$\nClick Next to continue."
+
 
 ; Pages
 !insertmacro MUI_PAGE_WELCOME
