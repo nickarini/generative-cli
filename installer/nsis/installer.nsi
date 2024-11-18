@@ -9,6 +9,7 @@ Icon "generative.ico"
 InstallDir "$TEMP"
 
 ; UI Configuration
+!define MUI_ICON "app_icon.ico"
 !define MUI_ABORTWARNING
 
 ; Pages
@@ -33,6 +34,7 @@ Section "Install" SEC01
 
     ; Copy PowerShell script
     File "windows-install.ps1"
+    FILE "generative.ico"
 
     ; Execute PowerShell script with elevated privileges
     DetailPrint "Running installation PowerShell script..."
