@@ -11,11 +11,11 @@
 !define MUI_WELCOMEFINISHPAGE_BITMAP "sidebar_image.bmp"
 
 ; Color Customization
-!define MUI_BGCOLOR "000000"  ; White background
-!define MUI_TEXTCOLOR "FFFFFF"  ; Black text
+!define MUI_BGCOLOR "FFFFFF"  ; White background
+!define MUI_TEXTCOLOR "000000"  ; Black text
 
 ; General Installer Configurations
-Name "Generative Engineering Setup"
+Name "Generative Engineering"
 Icon "generative.ico"
 InstallDir "$TEMP"
 RequestExecutionLevel user
@@ -34,7 +34,7 @@ RequestExecutionLevel user
 !insertmacro MUI_LANGUAGE "English"
 
 ; Branding Text
-BrandingText "Generative Engineering Setup"
+BrandingText "Generative Engineering"
 
 ; Compiler Settings for Visual Style
 XPStyle on
