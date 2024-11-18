@@ -21,6 +21,7 @@ Icon "generative.ico"
 InstallDir "$TEMP"
 RequestExecutionLevel user
 
+
 ; Favicon Configuration
 Function .onInit
     ; Set favicon for the installer executable
