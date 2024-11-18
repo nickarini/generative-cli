@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Welcome to the Generative Engineering installer."
-echo """
+cat << EOF
                                        _    _
                                       | |  (_)
   __ _   ___  _ __    ___  _ __  __ _ | |_  _ __   __ ___
@@ -11,8 +11,8 @@ echo """
   __/ |
  |___/
 
+EOF
 
-"""
 
 # Update package lists
 echo "Updating package lists..."
