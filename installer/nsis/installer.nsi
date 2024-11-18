@@ -2,11 +2,24 @@
 
 ; Include Modern UI
 !include "MUI2.nsh"
+!include "LogicLib.nsh"
+
+; Custom Banner and UI Settings
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_BITMAP "installer_banner.bmp"
+!define MUI_HEADERIMAGE_RIGHT
+!define MUI_WELCOMEFINISHPAGE_BITMAP "sidebar_image.bmp"
+
+; Color Customization
+!define MUI_BGCOLOR "000000"  ; White background
+!define MUI_TEXTCOLOR "FFFFFF"  ; Black text
 
 ; General Installer Configurations
 Name "Generative Engineering Setup"
 Icon "generative.ico"
 InstallDir "$TEMP"
+RequestExecutionLevel user
+
 
 ; UI Configuration
 !define MUI_ICON "generative.ico"
@@ -20,7 +33,14 @@ InstallDir "$TEMP"
 
 !insertmacro MUI_LANGUAGE "English"
 
-RequestExecutionLevel user
+; Branding Text
+BrandingText "Generative Engineering Setup"
+
+; Compiler Settings for Visual Style
+XPStyle on
+ManifestSupportedOS all
+
+
 
 
 OutFile "generative-engineering-setup.exe" ; File name of generated installer executable
