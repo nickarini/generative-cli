@@ -9,7 +9,7 @@ Icon "generative.ico"
 InstallDir "$TEMP"
 
 ; UI Configuration
-!define MUI_ICON "app_icon.ico"
+!define MUI_ICON "generative.ico"
 !define MUI_ABORTWARNING
 
 ; Pages
@@ -21,7 +21,6 @@ InstallDir "$TEMP"
 !insertmacro MUI_LANGUAGE "English"
 
 RequestExecutionLevel user
-
 
 
 OutFile "generative-engineering-setup.exe" ; File name of generated installer executable
