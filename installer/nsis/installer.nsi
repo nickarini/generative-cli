@@ -32,7 +32,7 @@ Section "Install" SEC01
     SetOutPath "$INSTDIR"
 
     ; Copy PowerShell script
-    File "install-script.ps1"
+    File "windows-install.ps1"
 
     ; Execute PowerShell script with elevated privileges
     DetailPrint "Running installation PowerShell script..."
