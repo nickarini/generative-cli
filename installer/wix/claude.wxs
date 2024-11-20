@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
-     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-    <Package Name="MyApplication"
-             Manufacturer="MyCompany"
-             Version="1.0.0.0"
-             UpgradeCode="12345678-1234-1234-1234-123456789012"
-             Language="1033"
-             Compressed="yes"
-             InstallerVersion="500">
+     xmlns="http://wixtoolset.org/schemas/v4/wxs/util>
+    <Product Id="*" Name="MyApplication" Language="1033" Version="1.0.0.0" Manufacturer="MyCompany" UpgradeCode="12345678-1234-1234-1234-123456789012">
+        <Package InstallerVersion="500" Compressed="yes" Comments="Windows Installer Package with PowerShell Script" InstallScope="perMachine" />
 
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFilesFolder">
                 <Directory Id="APPLICATIONROOTDIRECTORY" Name="MyApplication">
                     <Component Id="ApplicationFiles" Guid="87654321-4321-4321-4321-210987654321">
-                        <File Id="PowerShellScript" Source="windows-install.ps1" Name="windows-install.ps1" />
+                        <File Id="MainExecutable" Source="path\to\your\executable.exe" />
+                        <File Id="PowerShellScript" Source="path\to\your\script.ps1" Name="ConfigureSystem.ps1" />
                     </Component>
                 </Directory>
             </Directory>
@@ -47,5 +43,5 @@
         </InstallExecuteSequence>
 
         <Property Id="POWERSHELLEXECUTABLE" Value="powershell.exe" />
-    </Package>
+    </Product>
 </Wix>
