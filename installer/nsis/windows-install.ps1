@@ -1,9 +1,6 @@
 # Intro message
 Write-Host "Welcome to the Generative Engineering installer."
 
-# Bypass ssl certificate validation (temporary workaround)
-[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
-
 # Install Scoop if not already installed
 if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "Scoop not found. Installing Scoop..."
@@ -12,6 +9,9 @@ if (!(Get-Command scoop -ErrorAction SilentlyContinue)) {
 } else {
     Write-Host "Scoop is already installed."
 }
+
+# Bypass ssl certificate validation (temporary workaround)
+[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
 
 # Check if Git is installed
 if (!(Get-Command git -ErrorAction SilentlyContinue)) {
