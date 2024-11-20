@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+    <Package Name="MyApplication"
+             Manufacturer="MyCompany"
+             Version="1.0.0.0"
+             UpgradeCode="12345678-1234-1234-1234-123456789012"
+             Language="1033"
+             Compressed="yes"
+             InstallerVersion="500">
+
+        <StandardDirectory Id="ProgramFiles64Folder">
+            <Directory Name="MyApplication">
+                <Component Id="ApplicationFiles">
+                    <File Source="path\to\your\executable.exe" />
+                    <File Source="path\to\your\script.ps1" Name="ConfigureSystem.ps1" />
+                </Component>
+            </Directory>
+        </StandardDirectory>
+
+        <Feature Id="MainApplication">
+            <ComponentRef Id="ApplicationFiles" />
+        </Feature>
+
+        <CustomAction Id="RunPowerShellScript"
+                      Execute="deferred"
+                      Impersonate="no"
+                      Return="check"
+                      FileKey="ConfigureSystem.ps1"
+                      ExeCommand="powershell.exe -ExecutionPolicy Bypass -File &quot;[INSTALLDIR]ConfigureSystem.ps1&quot;" />
+
+        <InstallExecuteSequence>
+            <Custom Action="RunPowerShellScript" After="InstallFiles">NOT Installed</Custom>
+        </InstallExecuteSequence>
+    </Package>
+</wix>
