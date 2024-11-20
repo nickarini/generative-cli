@@ -70,11 +70,20 @@ if (-not (Is-PythonInstalled)) {
     }
 }
 
+# Check if Pipx is installed
+if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
+    Write-Host "Pipx not found. Installing Python via Scoop..."
+    scoop install pipx
+} else
+{
+    Write-Host "Pipx is already installed."
+}
+
 # Check if Poetry is installed
 if (!(Get-Command poetry -ErrorAction SilentlyContinue)) {
     Write-Host "Poetry not found. Installing Poetry via Scoop..."
 
-       (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+    pipx install poetry
 
     # Retrieve the current user PATH
     $oldPath = [Environment]::GetEnvironmentVariable("PATH", "User")
@@ -83,7 +92,7 @@ if (!(Get-Command poetry -ErrorAction SilentlyContinue)) {
     $currentUser = $env:USERNAME
 
     # Define the new directory to add
-    $newDirectory = "C:\Users\$currentUser\Appdata\Roaming\Python\Scripts"
+    $newDirectory = "C:\Users\$currentUser\Appdata\Roaming\pypoetry\venv\Scripts"
 
     # Check if the directory is already in PATH to avoid duplicates
     if ($oldPath -notlike "*$newDirectory*") {
@@ -97,7 +106,6 @@ if (!(Get-Command poetry -ErrorAction SilentlyContinue)) {
     } else {
         Write-Host "Directory is already in the user PATH."
     }
-
 } else {
     Write-Host "Poetry is already installed."
 }
