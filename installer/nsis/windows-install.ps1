@@ -73,7 +73,31 @@ if (-not (Is-PythonInstalled)) {
 # Check if Poetry is installed
 if (!(Get-Command poetry -ErrorAction SilentlyContinue)) {
     Write-Host "Poetry not found. Installing Poetry via Scoop..."
-    scoop install poetry
+
+       (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+
+    # Retrieve the current user PATH
+    $oldPath = [Environment]::GetEnvironmentVariable("PATH", "User")
+
+    # Retrieve the current user's username
+    $currentUser = $env:USERNAME
+
+    # Define the new directory to add
+    $newDirectory = "C:\Users\$currentUser\Appdata\Roaming\Python\Scripts"
+
+    # Check if the directory is already in PATH to avoid duplicates
+    if ($oldPath -notlike "*$newDirectory*") {
+        # Append the new directory to the PATH
+        $newPath = "$oldPath;$newDirectory"
+
+        # Set the new user PATH
+        [Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
+
+        Write-Host "Directory added to user PATH successfully."
+    } else {
+        Write-Host "Directory is already in the user PATH."
+    }
+
 } else {
     Write-Host "Poetry is already installed."
 }
