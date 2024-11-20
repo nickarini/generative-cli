@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <!-- Product Details -->
+    <Product
+        Id="*"
+        Name="MyApplication"
+        Language="1033"
+        Version="1.0.0.0"
+        Manufacturer="MyCompany"
+        UpgradeCode="12345678-1234-1234-1234-123456789012">
+
+        <!-- Package Metadata -->
+        <Package
+            InstallerVersion="200"
+            Compressed="yes"
+            Comments="Windows Installer Package with PowerShell Script"
+            InstallScope="perMachine"/>
+
+        <!-- Media Configuration -->
+        <Media Id="1" Cabinet="media1.cab" EmbedCab="yes"/>
+
+        <!-- Directory Structure -->
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="APPLICATIONROOTDIRECTORY" Name="MyApplication">
+                    <!-- Files to install -->
+                    <Component Id="ApplicationFiles" Guid="87654321-4321-4321-4321-210987654321">
+                        <File Id="MainExecutable"
+                              Source="path\to\your\executable.exe"
+                              KeyPath="yes"/>
+
+                        <!-- PowerShell Script -->
+                        <File Id="PowerShellScript"
+                              Source="path\to\your\script.ps1"
+                              Name="ConfigureSystem.ps1"/>
+                    </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <!-- Feature Definition -->
+        <Feature Id="MainApplication" Title="Main Application" Level="1">
+            <ComponentRef Id="ApplicationFiles"/>
+            <ComponentRef Id="PowerShellScriptExecution"/>
+        </Feature>
+
+        <!-- Custom Action to Run PowerShell Script -->
+        <Component Id="PowerShellScriptExecution" Directory="APPLICATIONROOTDIRECTORY" Guid="NEWGUID-EACH-INSTALL">
+            <CustomAction
+                Id="RunPowerShellScript"
+                Directory="APPLICATIONROOTDIRECTORY"
+                Execute="deferred"
+                Impersonate="no"
+                Return="check"
+                ExeCommand="powershell.exe -ExecutionPolicy Bypass -File &quot;[APPLICATIONROOTDIRECTORY]ConfigureSystem.ps1&quot;"/>
+
+            <CustomAction
+                Id="RunPowerShellScriptSchedule"
+                After="InstallFinalize"
+                OnExit="success"
+                Execute="firstSequence"
+                Sequence="InstallExecute"/>
+        </Component>
+
+        <!-- Installation Sequence -->
+        <InstallExecuteSequence>
+            <Custom Action="RunPowerShellScript" After="InstallFiles">NOT Installed</Custom>
+        </InstallExecuteSequence>
+    </Product>
+</Wix>
