@@ -81,7 +81,7 @@ if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
 
 # Check if Poetry is installed
 if (!(Get-Command poetry -ErrorAction SilentlyContinue)) {
-    Write-Host "Poetry not found. Installing Poetry via Scoop..."
+    Write-Host "Poetry not found. Installing Poetry via Pipx..."
 
     pipx install poetry
 

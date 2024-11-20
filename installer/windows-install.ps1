@@ -84,7 +84,7 @@ if (-not (Is-PythonInstalled)) {
 
 # Check if Pipx is installed
 if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
-    Write-Host "Pipx not found. Installing Python via Scoop..."
+    Write-Host "Pipx not found. Installing Python via Pipx..."
     scoop install pipx
 } else
 {
