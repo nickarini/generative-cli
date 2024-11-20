@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
     <Package Name="MyApplication"
              Manufacturer="MyCompany"
              Version="1.0.0.0"
@@ -8,28 +8,43 @@
              Compressed="yes"
              InstallerVersion="500">
 
-        <StandardDirectory Id="ProgramFiles64Folder">
-            <Directory Name="MyApplication">
-                <Component Id="ApplicationFiles">
-                    <File Source="path\to\your\executable.exe" />
-                    <File Source="path\to\your\script.ps1" Name="ConfigureSystem.ps1" />
-                </Component>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="APPLICATIONROOTDIRECTORY" Name="MyApplication">
+                    <Component Id="ApplicationFiles" Guid="87654321-4321-4321-4321-210987654321">
+                        <File Id="PowerShellScript" Source="windows-install.ps1" Name="windows-install.ps1" />
+                    </Component>
+                </Directory>
             </Directory>
-        </StandardDirectory>
+        </Directory>
 
-        <Feature Id="MainApplication">
+        <Feature Id="MainApplication" Title="Main Application" Level="1">
             <ComponentRef Id="ApplicationFiles" />
+            <ComponentRef Id="PowerShellScriptExecution" />
         </Feature>
 
-        <CustomAction Id="RunPowerShellScript"
-                      Execute="deferred"
-                      Impersonate="no"
-                      Return="check"
-                      FileKey="ConfigureSystem.ps1"
-                      ExeCommand="powershell.exe -ExecutionPolicy Bypass -File &quot;[INSTALLDIR]ConfigureSystem.ps1&quot;" />
+        <Component Id="PowerShellScriptExecution" Directory="APPLICATIONROOTDIRECTORY" Guid="NEWGUID-EACH-INSTALL">
+            <util:EventSource Name="PowerShellScriptExecution" Log="Application" EventMessageFile="[APPLICATIONROOTDIRECTORY]ConfigureSystem.ps1" />
+            <util:EventSource Name="PowerShellScriptExecutionFailure" Log="Application" EventMessageFile="[APPLICATIONROOTDIRECTORY]ConfigureSystem.ps1" />
+
+            <CustomAction Id="RunPowerShellScript"
+                          Property="POWERSHELLEXECUTABLE"
+                          ExeCommand="[POWERSHELLEXECUTABLE] -ExecutionPolicy Bypass -File &quot;[APPLICATIONROOTDIRECTORY]ConfigureSystem.ps1&quot;"
+                          Execute="deferred"
+                          Impersonate="no"
+                          Return="check" />
+
+            <CustomAction Id="RunPowerShellScriptSchedule"
+                          After="InstallFinalize"
+                          OnExit="success"
+                          Execute="firstSequence"
+                          Sequence="InstallExecute" />
+        </Component>
 
         <InstallExecuteSequence>
             <Custom Action="RunPowerShellScript" After="InstallFiles">NOT Installed</Custom>
         </InstallExecuteSequence>
+
+        <Property Id="POWERSHELLEXECUTABLE" Value="powershell.exe" />
     </Package>
-</wix>
+</Wix>
