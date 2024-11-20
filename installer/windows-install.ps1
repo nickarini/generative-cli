@@ -84,7 +84,7 @@ if (-not (Is-PythonInstalled)) {
 
 # Check if Pipx is installed
 if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
-    Write-Host "Pipx not found. Installing Python via Pipx..."
+    Write-Host "Pipx not found. Installing Pipx via Scoop..."
     scoop install pipx
 } else
 {
@@ -93,7 +93,7 @@ if (!(Get-Command pipx -ErrorAction SilentlyContinue)) {
 
 # Check if Poetry is installed
 if (!(Get-Command poetry -ErrorAction SilentlyContinue)) {
-    Write-Host "Poetry not found. Installing Poetry via Scoop..."
+    Write-Host "Poetry not found. Installing Poetry via Pipx..."
 
     pipx install poetry
 
